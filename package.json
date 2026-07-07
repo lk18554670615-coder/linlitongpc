@@ -1,0 +1,66 @@
+{
+  "name": "linlitong-desktop",
+  "version": "0.1.0",
+  "description": "邻里通多会话桌面客户端",
+  "private": true,
+  "main": "src/main/main.js",
+  "author": "邻里通",
+  "license": "UNLICENSED",
+  "scripts": {
+    "icons": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/generate-icon.ps1",
+    "start": "electron .",
+    "lint": "node --check src/main/main.js && node --check src/main/preload.js && node --check src/renderer/renderer.js && node --check scripts/smoke-check.js",
+    "smoke": "node scripts/smoke-check.js",
+    "build": "electron-builder",
+    "build:win": "electron-builder --win nsis",
+    "build:mac": "electron-builder --mac dmg",
+    "build:mac:x64": "electron-builder --mac dmg --x64",
+    "build:mac:arm64": "electron-builder --mac dmg --arm64",
+    "build:linux": "electron-builder --linux AppImage"
+  },
+  "devDependencies": {
+    "electron": "^43.0.0",
+    "electron-builder": "^26.15.3"
+  },
+  "build": {
+    "appId": "com.linlitong.desktop",
+    "productName": "邻里通",
+    "asar": true,
+    "files": [
+      "src/**/*",
+      "build/icons/**/*",
+      "package.json"
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "build/icons/icon.ico",
+      "artifactName": "${productName}-${version}-win-${arch}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "mac": {
+      "target": [
+        "dmg"
+      ],
+      "icon": "build/icons/icon.icns",
+      "artifactName": "${productName}-${version}-mac-${arch}.${ext}",
+      "category": "public.app-category.social-networking"
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "icon": "build/icons/icon.png",
+      "artifactName": "${productName}-${version}-linux-${arch}.${ext}",
+      "category": "Network"
+    }
+  }
+}

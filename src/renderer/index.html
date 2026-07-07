@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>邻里通</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="sidebar">
+      <header class="brand">
+        <div>
+          <p class="eyebrow">Desktop</p>
+          <h1>邻里通</h1>
+        </div>
+        <button class="icon-button add-button" id="addProfileButton" title="添加账号" aria-label="添加账号">
+          +
+        </button>
+      </header>
+
+      <section class="profiles" aria-label="账号列表">
+        <div id="profilesList" class="profiles-list"></div>
+      </section>
+
+      <footer class="footer">
+        <p id="statusText">准备就绪</p>
+      </footer>
+    </main>
+
+    <script src="./renderer.js"></script>
+  </body>
+</html>
