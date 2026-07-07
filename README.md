@@ -45,6 +45,14 @@ Windows 产物为 NSIS 安装包，macOS 产物为 DMG，Linux 产物为 AppImag
 
 当前产物未做 Apple Developer ID 签名和 notarization，首次打开可能会被 macOS Gatekeeper 提示。
 
+### GitHub Actions 打包 Windows
+
+仓库已包含 `.github/workflows/build-windows.yml`，推送到 GitHub 后可以在 Actions 页面手动运行 `Build Windows Installer`。工作流会生成：
+
+- `linlitong-windows-x64`，包含 Windows x64 的 NSIS 安装包。
+
+当前产物未做代码签名，首次安装时 Windows SmartScreen 可能会提示未知发布者。
+
 ## 会话数据
 
 账号列表和 Electron session 数据保存在系统应用数据目录中。移除账号时会清理对应 partition 的存储和缓存，不影响其他账号。

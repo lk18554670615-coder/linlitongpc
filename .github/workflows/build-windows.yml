@@ -1,0 +1,57 @@
+name: Build Windows Installer
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Windows x64
+    runs-on: windows-latest
+
+    env:
+      CSC_IDENTITY_AUTO_DISCOVERY: "false"
+      ELECTRON_CACHE: ${{ github.workspace }}/.cache/electron
+      ELECTRON_BUILDER_CACHE: ${{ github.workspace }}/.cache/electron-builder
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify icon assets
+        shell: pwsh
+        run: |
+          if (-not (Test-Path build/icons/icon.ico)) { throw "Missing build/icons/icon.ico" }
+          if (-not (Test-Path build/icons/icon.png)) { throw "Missing build/icons/icon.png" }
+
+      - name: Static checks
+        run: |
+          npm run lint
+          npm run smoke
+
+      - name: Build Windows installer
+        run: npx electron-builder --win nsis --x64 --publish never
+
+      - name: Upload Windows artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: linlitong-windows-x64
+          path: |
+            dist/*-win-x64.exe
+            dist/*-win-x64.exe.blockmap
+            dist/latest.yml
+          if-no-files-found: error
